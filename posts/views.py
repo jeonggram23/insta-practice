@@ -11,10 +11,43 @@ def index(request):
 
     context = {
         'posts': posts,
-        'comment_form' : comment_form
+        'comment_form' : comment_form,
     }
 
     return render(request, 'index.html', context)
+
+def index2(request):
+    posts = Post.objects.all().order_by('-id')
+    comment_form = CommentForm()
+
+    context = {
+        'posts': posts,
+        'comment_form': comment_form,
+    }
+
+    return render(request, 'index2.html', content)
+
+def index3(request):
+    posts = Post.objects.all().order_by('-id')
+    comment_form = CommentForm()
+
+    context = {
+        'posts': posts,
+        'comment_form': comment_form,
+    }
+
+    return render(request, 'index3.html', content)
+
+def detail(request, post_id):
+    post = Post.objects.get(id=post_id)
+    comment_form = CommentForm()
+
+    context = {
+        'post': post,
+        'comment_form' : comment_form,
+    }
+
+    return render(request, 'detail.html', context)
 
 @login_required
 def create(request):

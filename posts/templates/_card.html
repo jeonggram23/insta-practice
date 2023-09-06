@@ -6,7 +6,9 @@
             <a href="{% url 'accounts:profile' username=post.user %}" class="text-reset text-decoration-none">{{post.user}}</a>
         </p>
     </div>
-    <img src="{{post.image.url}}"  alt="...">
+    <a href="{% url 'posts:detail' post_id=post.id %}">
+        <img src="{{post.image.url}}"  alt="...">
+    </a>
     <div class="card-body">
         <!-- <h5 class="card-title">Card title</h5> -->
         
