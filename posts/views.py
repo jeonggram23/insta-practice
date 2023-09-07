@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
 # Create your views here.
 def index(request):
@@ -25,7 +25,7 @@ def index2(request):
         'comment_form': comment_form,
     }
 
-    return render(request, 'index2.html', content)
+    return render(request, 'index2.html', context)
 
 def index3(request):
     posts = Post.objects.all().order_by('-id')
@@ -36,7 +36,7 @@ def index3(request):
         'comment_form': comment_form,
     }
 
-    return render(request, 'index3.html', content)
+    return render(request, 'index3.html', context)
 
 def detail(request, post_id):
     post = Post.objects.get(id=post_id)
@@ -99,6 +99,7 @@ def comment_delete(request, id, post_id):
 
 def comment_edit(request, post_id, id):
     if request.method == 'POST':
+        
         form = CommentForm(request.POST)
         if form.is_valid():
 
@@ -107,20 +108,41 @@ def comment_edit(request, post_id, id):
             comment.user = request.user
             comment.save()
 
-        return JsonResponse({'id': comment.id,
-                        'postId':post_id,
-                        'username':comment.user.username,
-                        'content':comment.content,})
+        return redirect('posts:index')
     
     else:
-        comment = Comment.objects.get(id=id)
-        form = CommentForm(instance=comment)
+        post_id = Post.objects.get(id=post_id)
+        id = Comment.objects.get(id=id)
+        form = CommentForm(id=id)
 
     context = {
         'form' : form,
     }
 
-    return JsonResponse(context)
+    return render(request, 'form.html', context)
+
+
+# def comment_update(request, post_id, id):
+#     comment = Comment.objects.get(id=id)
+
+#     if request.method == 'POST':
+#         form = CommentForm(request.POST, instance=comment)
+#         if form.is_valid():
+#             comment = form.save()
+#             context = {
+#                 'newContent': comment.content,
+#                 'user': comment.user.username,
+#             }
+#         else:
+#             context = {
+#                 'message': 'fail'
+#             }
+
+#         return JsonResponse(context)
+#     else:
+#         form = CommentForm(instance=comment)
+
+#     return HttpResponse(form)
 
 
 @login_required

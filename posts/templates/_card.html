@@ -42,6 +42,7 @@
                         <a href="{% url 'posts:comment_delete' post_id=post.id id=comment.id%}">
                             <i class="bi bi-trash trash" style="color: black" data-comment-id="{{comment.id}}" data-post-id="{{post.id}}"></i>
                         </a>
+                        
                     {% endif %}
                     
                 </li>

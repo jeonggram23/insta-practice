@@ -1,11 +1,28 @@
 {% extends 'base.html' %}
 
 {%block body%}
-
+    <div class="container">
+            
+                
+        <div class="text-xxl-end text-end">
+            <span class="border border-5">
+                <a href="{% url 'posts:index' %}">
+                    <i class="bi bi-postage" style="color: black; height: 50px;;" ></i>
+                </a>
+            </span>
+            <span class="border border-5">
+                <a href="{% url 'posts:index2' %}">
+                    <i class="bi bi-border-all" style="color: black; margin-left: 10;"></i>
+                </a>
+            </span>
+        </div>
+    </div>
     {% for post in posts %}
         {% include '_card.html' %}
 
     {%endfor%}
+
+    
 
 <!-- 좋아요 버튼 -->
     <script>
@@ -57,7 +74,7 @@
         // editButtons.forEach((editButton) => {
         //     // console.log(editButton)
         //     editButton.addEventListener('click', (event)=>{
-                
+        //         console.log(event)
         //         let commentId = event.target.dataset.commentId
         //         // console.log(commentId)
         //         let postId = event.target.dataset.postId
@@ -80,32 +97,32 @@
     <!-- 코멘트 입력 -->
     <script>
 
-        const commentForms = document.querySelectorAll('.comment-form')
-        commentForms.forEach(function(form){
-            form.addEventListener('submit', function(event){
-            event.preventDefault()
+    //     const commentForms = document.querySelectorAll('.comment-form')
+    //     commentForms.forEach(function(form){
+    //         form.addEventListener('submit', function(event){
+    //         event.preventDefault()
             
-            const data = new FormData(event.target)
+    //         const data = new FormData(event.target)
 
-            axios.post(event.target.action, data)
-                .then(function(response){
-                    const comment = response.data
-                    const commentList = document.querySelector(
-                        `#comment-list-${comment.postId}`)
-                    const newComment = `<li>
-                        ${comment.user} : ${comment.content}
-                        <a href="/posts/${comment.postId}/comments/${comment.id}/update/">
-                            <i class="bi bi-pen pen" style="color: black" data-comment-id="{{comment.id}}" data-post-id="{{post.id}}"></i>
-                        </a>
-                        <a href="/posts/${comment.postId}/comments/${comment.id}/delete/">
-                            <i class="bi bi-trash trash" style="color: black" data-comment-id="{{comment.id}}" data-post-id="{{post.id}}"></i>
-                        </a>
-                    </li>`
-                    commentList.insertAdjacentHTML('beforeEnd', newComment)
-                    event.target.reset()
-            })
-        })
-    })
+    //         axios.post(event.target.action, data)
+    //             .then(function(response){
+    //                 const comment = response.data
+    //                 const commentList = document.querySelector(
+    //                     `#comment-list-${comment.postId}`)
+    //                 const newComment = `<li>
+    //                     ${comment.user} : ${comment.content}
+    //                     <a href="/posts/${comment.postId}/comments/${comment.id}/update/">
+    //                         <i class="bi bi-pen pen" style="color: black" data-comment-id="{{comment.id}}" data-post-id="{{post.id}}"></i>
+    //                     </a>
+    //                     <a href="/posts/${comment.postId}/comments/${comment.id}/delete/">
+    //                         <i class="bi bi-trash trash" style="color: black" data-comment-id="{{comment.id}}" data-post-id="{{post.id}}"></i>
+    //                     </a>
+    //                 </li>`
+    //                 commentList.insertAdjacentHTML('beforeEnd', newComment)
+    //                 event.target.reset()
+    //         })
+    //     })
+    // })
     </script> 
 
 <!-- 코멘트 수정2 -->
@@ -191,4 +208,23 @@
 // comment.init();
 
 </script>
+    <div class="moveTopBtn" style="position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    
+    color: black;
+    
+   "><i class="bi bi-arrow-up-circle-fill align-items-center" style="width: 4rem; height: 4rem;"></i></div>
+
+    <script>
+   const topBtn = document.querySelector(".moveTopBtn");
+
+   // 버튼 클릭 시 맨 위로 이동
+   topBtn.onclick = () => {
+     window.scrollTo({ top: 0, behavior: "smooth" });  
+   }
+    </script>
+
 {% endblock%}
